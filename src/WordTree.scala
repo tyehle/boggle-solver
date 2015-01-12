@@ -5,7 +5,7 @@ import scala.collection.mutable
  * @author Tobin Yehle
  * 1/3/2015
  */
-class WordTree(children: mutable.Map[Char, WordTree], isWord: Boolean) {
+class WordTree(children: mutable.Map[Char, WordTree], val isWord: Boolean) {
   /**
    * Constructs a word tree using a list of words and a starting letter.
    * @param words The list of words to construct the rest of the tree
@@ -31,6 +31,16 @@ class WordTree(children: mutable.Map[Char, WordTree], isWord: Boolean) {
     else if(children.keySet.contains(word.head)) children(word.head).contains(word.tail)
     else false
   }
+
+  def subTree(prefix: String): Option[WordTree] = {
+    if(prefix == "") Some(this)
+    else if(!children.keySet.contains(prefix.head)) None
+    else children(prefix.head).subTree(prefix.tail)
+  }
+
+  def apply(letter: Char) = children(letter)
+
+  def letterSet = children.keySet
 
   override def toString: String = toString("", last=true, letter=' ')
 

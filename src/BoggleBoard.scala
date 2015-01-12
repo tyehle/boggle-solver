@@ -4,7 +4,7 @@ import scala.util.Random
  * @author Tobin Yehle
  * 1/7/2015
  */
-class BoggleBoard(pieces: Map[Location, String]) {
+class BoggleBoard(val pieces: Map[Location, String]) {
   /**
    * Tests if a path drawn through the board is a valid path.
    * @param path The path, represented as a sequence of locations
@@ -33,8 +33,16 @@ class BoggleBoard(pieces: Map[Location, String]) {
   def adjacent(a: Location, b: Location) = math.abs(a.row - b.row) <= 1 && math.abs(a.col - b.col) <= 1
 
   override def toString = {
-//    pieces.toSeq.sortBy(_._1)
-    ""
+    val letters = pieces.toSeq.sortBy{case (loc, _) => (loc.row, loc.col)}.map(_._2)
+    val side = Math.sqrt(letters.length).asInstanceOf[Int]
+    val lineBreak = "+" + List.fill(side)("---").mkString("+") + "+\n"
+    lineBreak +
+      letters.grouped(side).map{
+                                 row => "|" + row.map{
+                                                       l => (" "+l+" ").take(3)
+                                                     }.mkString("|") + "|\n"
+                               }.mkString(lineBreak) +
+      lineBreak
   }
 }
 
@@ -116,10 +124,10 @@ object BoggleBoard {
     }
     val side = root.asInstanceOf[Int]
 
-    val quTransform = (s:Char) => if(q2qu && s == 'q') "qu" else s.toString
+    val quTransform = (s:Char) => if(q2qu && s == 'q') "qu" else s.toLower.toString
     val letters = Random.shuffle(dice).map(s => quTransform(s(Random.nextInt(s.length))))
 
-    val locations = Driver.cartesianProduct(0 until side, 0 until side).map{case r :: c :: Nil => new Location(r, c)}
+    val locations = Driver.cartesianProduct((0 until side).toSeq, (0 until side).toSeq).map{case r :: c :: Nil => new Location(r, c)}
 
     new BoggleBoard(locations.zip(letters).toMap)
   }

@@ -10,5 +10,13 @@ class Location(val row: Int, val col: Int) {
       case _ => false
     }
   }
-  override def hashCode = col.hashCode + 29*row.hashCode // hopefully there will not be more than 29 columns
+
+  /**
+   * Works on positive rows and columns
+   * @return
+   */
+  override def hashCode = {
+    val n = row + col
+    (n*n + n) / 2 + (row - col)
+  }
 }
