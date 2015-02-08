@@ -1,29 +1,13 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+This is a project to solve a game of boggle. It is configured to be easy to generate boards using the dice commonly found in available copies of the game.
 
-### What is this repository for? ###
+### Design ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+The state of the game has two parts, the game board, and the list of valid words. The list of valid words are stored as a tree to make searching for them in the board fast.
 
-### How do I get set up? ###
+### Building the Project ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+* Scala version 2.11
+* Contains metadata for an IntelliJ project
+* No external dependencies
