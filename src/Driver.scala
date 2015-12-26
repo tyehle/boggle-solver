@@ -6,7 +6,7 @@ import scala.io.Source
  */
 object Driver {
   def main(args: Array[String]):Unit = {
-    val words = Source.fromFile("100000.txt").getLines().toSeq
+    val words = Source.fromFile("100000.trimmed-4").getLines().toSeq
 
     val dictionary = new WordTree(words)
 
