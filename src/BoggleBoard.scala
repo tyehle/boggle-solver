@@ -5,6 +5,20 @@ import scala.util.Random
  * 1/7/2015
  */
 class BoggleBoard(val pieces: Map[Location, String]) {
+
+  /**
+    * Build a board from a number of lines.
+    * @param lines The characters in each line
+    */
+  def this(lines: Seq[String]) = {
+    this {
+      (for {
+        (line, lineNum) <- lines.zipWithIndex
+        (char, charIndex) <- line.zipWithIndex
+      } yield new Location(lineNum, charIndex) -> char.toString).toMap
+    }
+  }
+
   /**
    * Tests if a path drawn through the board is a valid path.
    * @param path The path, represented as a sequence of locations
@@ -35,14 +49,18 @@ class BoggleBoard(val pieces: Map[Location, String]) {
   override def toString = {
     val letters = pieces.toSeq.sortBy{case (loc, _) => (loc.row, loc.col)}.map(_._2)
     val side = Math.sqrt(letters.length).asInstanceOf[Int]
-    val lineBreak = "+" + List.fill(side)("---").mkString("+") + "+\n"
-    lineBreak +
+
+    val firstLine = "┌" + List.fill(side)("───").mkString("┬") + "┐\n"
+    val lineBreak = "├" + List.fill(side)("───").mkString("┼") + "┤\n"
+    val lastLine = "└" + List.fill(side)("───").mkString("┴") + "┘\n"
+
+    firstLine +
       letters.grouped(side).map{
-                                 row => "|" + row.map{
+                                 row => "│" + row.map{
                                                        l => (" "+l+" ").take(3)
-                                                     }.mkString("|") + "|\n"
+                                                     }.mkString("│") + "|\n"
                                }.mkString(lineBreak) +
-      lineBreak
+      lastLine
   }
 }
 
