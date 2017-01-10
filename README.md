@@ -8,6 +8,6 @@ The state of the game has two parts, the game board, and the list of valid words
 
 ### Building the Project ###
 
-* Scala version 2.11
-* Contains metadata for an IntelliJ project
+* Scala version 2.12
+* Build using [sbt](http://www.scala-sbt.org/)
 * No external dependencies
