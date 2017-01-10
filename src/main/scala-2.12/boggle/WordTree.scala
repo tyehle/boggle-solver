@@ -1,48 +1,39 @@
 package boggle
 
-import scala.collection.mutable
+import scala.annotation.tailrec
 
 /**
  * Represents words as a tree
  * @author Tobin Yehle
  * 1/3/2015
  */
-class WordTree(children: mutable.Map[Char, WordTree], val isWord: Boolean) {
+final class WordTree(children: Map[Char, WordTree], val isWord: Boolean) {
   /**
-   * Constructs a word tree using a list of words and a starting letter.
+   * Constructs a word tree using a list of words.
    * @param words The list of words to construct the rest of the tree
    */
   def this(words: Seq[String]) = {
-    this(mutable.Map[Char, WordTree](), words.contains(""))
-
-    val firstLetterSplit = mutable.HashMap[Char, mutable.Buffer[String]]()
-    for(word <- words) {
-      if(word != "") {
-        if(!firstLetterSplit.contains(word.head))
-          firstLetterSplit.update(word.head, mutable.Buffer())
-
-        firstLetterSplit(word.head).prepend(word.tail)
-      }
-    }
-
-    children ++= firstLetterSplit.map{case (letter, remaining) => letter -> new WordTree(remaining)}
+    this(words.filter(_.nonEmpty).groupBy(_.head).mapValues(words => new WordTree(words.map(_.tail))),
+         words.contains(""))
   }
 
+  @tailrec
   def contains(word: String): Boolean = {
     if(word == "") isWord
     else if(children.keySet.contains(word.head)) children(word.head).contains(word.tail)
     else false
   }
 
+  @tailrec
   def subTree(prefix: String): Option[WordTree] = {
     if(prefix == "") Some(this)
     else if(!children.keySet.contains(prefix.head)) None
     else children(prefix.head).subTree(prefix.tail)
   }
 
-  def apply(letter: Char) = children(letter)
+  def apply(letter: Char): WordTree = children(letter)
 
-  def letterSet = children.keySet
+  def letterSet: Set[Char] = children.keySet
 
   override def toString: String = toString("", last=true, letter=' ')
 

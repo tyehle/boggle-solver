@@ -20,11 +20,10 @@ object Driver {
     println(found.sorted.sortBy(_.length).reverse.mkString("\n"))
   }
 
-
-  def cartesianProduct[T](xss: Seq[T]*): Seq[Seq[T]] = {
-    xss match {
-      case Nil => Seq(Nil)
-      case hs +: tss => for(h <- hs; t <- cartesianProduct(tss:_*)) yield h +: t
+  def cartesianProduct[T](groups: Seq[T]*): Stream[Seq[T]] = {
+    if(groups.isEmpty) Stream(Seq.empty)
+    else {
+      groups.head.flatMap(head => cartesianProduct(groups.tail:_*).map(tail => head +: tail))(collection.breakOut)
     }
   }
 }

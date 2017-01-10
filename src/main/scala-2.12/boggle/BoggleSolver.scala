@@ -6,7 +6,7 @@ package boggle
  */
 class BoggleSolver(board: BoggleBoard, dictionary: WordTree) {
   def solve(): Seq[String] = {
-    board.pieces.keySet.foldLeft(Seq.empty[String])((words, loc) => words ++ findWordsAt(loc)).toSet.toSeq
+    board.pieces.keySet.foldLeft(Seq.empty[String])((words, loc) => words ++ findWordsAt(loc)).distinct
   }
 
   def findWordsAt(loc: Location):Seq[String] = {
