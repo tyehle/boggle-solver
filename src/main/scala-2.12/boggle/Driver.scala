@@ -1,3 +1,5 @@
+package boggle
+
 import scala.io.Source
 
 /**

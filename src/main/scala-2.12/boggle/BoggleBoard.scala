@@ -1,3 +1,5 @@
+package boggle
+
 import scala.util.Random
 
 /**

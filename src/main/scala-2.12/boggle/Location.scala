@@ -1,3 +1,5 @@
+package boggle
+
 /**
  * 1/7/2015
  * @author Tobin Yehle

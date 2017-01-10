@@ -1,3 +1,5 @@
+package boggle
+
 import java.io.FileWriter
 
 import scala.io.Source
