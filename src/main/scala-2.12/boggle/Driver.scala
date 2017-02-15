@@ -14,10 +14,17 @@ object Driver {
 
     val bb = if(args.nonEmpty) new BoggleBoard(args.toSeq) else BoggleBoard.diceBoard(BoggleBoard.bigBoggleDice)
     println(bb)
+
+    val start = System.nanoTime()
+
     val solver = new BoggleSolver(bb, dictionary)
     val found = solver.solve().filter(_.length >= 4)
-    println(found.length+" words found")
+
+    val end = System.nanoTime()
+
+    println(s"${found.length} words found")
     println(found.sorted.sortBy(_.length).reverse.mkString("\n"))
+    println(s"Total time: ${(end-start) / 1000000000.0} seconds")
   }
 
   def cartesianProduct[T](groups: Seq[T]*): Stream[Seq[T]] = {
