@@ -1,0 +1,29 @@
+*~
+*.diff
+.manager
+.cache
+*.DS_Store
+*.orig
+/.classpath
+/.project
+/.settings
+
+*.class
+target
+
+## sbt build directories
+lib_managed/
+src_managed/
+project/project
+project/target
+target
+
+# Intellij IDEA files
+/.idea
+/*.iml
+/.idea_modules
+
+
+
+
+
