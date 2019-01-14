@@ -148,7 +148,7 @@ object BoggleBoard {
     val quTransform = (s:Char) => if(q2qu && s == 'q') "qu" else s.toLower.toString
     val letters = Random.shuffle(dice).map(s => quTransform(s(Random.nextInt(s.length))))
 
-    val locations = Driver.cartesianProduct(0 until side, 0 until side).map{case r :: c :: Nil => new Location(r, c)}
+    val locations = for { r <- 0 until side; c <- 0 until side } yield new Location(r, c)
 
     new BoggleBoard(locations.zip(letters).toMap)
   }
